@@ -5,6 +5,7 @@ public class Position {
     private String name;
     private double buyPrice;
     private double sellPrice;
+    private boolean open = true;
 
     public String getName() {
         return name;
@@ -28,6 +29,10 @@ public class Position {
 
     public void setSellPrice(double sellPrice) {
         this.sellPrice = sellPrice;
+    }
+    
+    public void closePosition(){
+        this.open = false;
     }
 
     @Override
