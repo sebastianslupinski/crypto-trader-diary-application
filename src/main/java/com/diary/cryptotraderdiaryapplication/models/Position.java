@@ -1,19 +1,57 @@
 package com.diary.cryptotraderdiaryapplication.models;
 
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+@Entity
+@Table(name = "position")
 public class Position {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @NotNull
+    @Column(name="id")
+    private int id;
+
+    @Column(name = "name")
     private String name;
+
+    @Column(name = "buy_price")
     private double buyPrice;
+
+    @Column(name = "sell_price")
     private double sellPrice;
+
+    @Column(name = "open_date")
     private Date openDate;
+
+    @Column(name = "close_date")
     private Date closeDate;
-    private boolean open = true;
+
+    @Column(name = "open_status")
+    private boolean open;
 
     public Position(){
         this.openDate = new Date();
+        this.open = true;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public boolean isOpen() {
+        return open;
+    }
+
+    public void setOpen(boolean open) {
+        this.open = open;
     }
 
     public String getOpenDate() {
