@@ -1,6 +1,8 @@
 package com.diary.cryptotraderdiaryapplication.controllers;
 
+import com.diary.cryptotraderdiaryapplication.dao.PositionDao;
 import com.diary.cryptotraderdiaryapplication.models.Position;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,6 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class MainController {
+
+    @Autowired
+    private PositionDao positionDao;
 
     @RequestMapping(value="/trades", method = RequestMethod.GET)
     public String addTrade(){
@@ -25,6 +30,8 @@ public class MainController {
         Position newTrade = new Position();
         newTrade.setName(name);
         newTrade.setBuyPrice(buyPrice);
+
+        positionDao.save(newTrade);
 
         model.addAttribute("trade", newTrade.toString());
         return "hello";
