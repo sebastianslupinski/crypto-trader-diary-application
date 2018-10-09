@@ -98,6 +98,6 @@ public class Position {
 
     @Override
     public String toString() {
-        return getOpenDate() + " " + buyPrice + "-> " + name + " -> " + sellPrice;
+        return getOpenDate() + " " + buyPrice + " -> " + name + " -> " + sellPrice;
     }
 }
