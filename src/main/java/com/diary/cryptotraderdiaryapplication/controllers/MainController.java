@@ -17,9 +17,9 @@ public class MainController {
     @Autowired
     private PositionDao positionDao;
 
-    @RequestMapping(value="/trades", method = RequestMethod.GET)
+    @RequestMapping(value="/add-trade", method = RequestMethod.GET)
     public String addTrade(){
-        return "helloform";
+        return "add-trade";
     }
 
     @RequestMapping(value="/main", method = RequestMethod.GET)
@@ -31,7 +31,24 @@ public class MainController {
         return "main-site";
     }
 
-    @RequestMapping(value="/trades", method = RequestMethod.POST)
+    @RequestMapping(value="/main", method = RequestMethod.POST)
+    public String showMainSiteAfterAdding(HttpServletRequest request, Model model){
+        String name = request.getParameter("name");
+        Double buyPrice = Double.valueOf(request.getParameter("buy price"));
+
+        Position newTrade = new Position();
+        newTrade.setName(name);
+        newTrade.setBuyPrice(buyPrice);
+
+        positionDao.save(newTrade);
+
+        //get all trades
+        List<Position> allTrades = positionDao.findAll();
+        model.addAttribute("trades",allTrades );
+        return "main-site";
+    }
+
+    @RequestMapping(value="/add-trade", method = RequestMethod.POST)
     public String showTrades(HttpServletRequest request, Model model){
 
         String name = request.getParameter("name");
@@ -44,7 +61,7 @@ public class MainController {
         positionDao.save(newTrade);
 
         model.addAttribute("trade", newTrade.toString());
-        return "hello";
+        return "main-site";
     }
 
 
