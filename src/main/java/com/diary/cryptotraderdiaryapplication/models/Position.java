@@ -1,5 +1,7 @@
 package com.diary.cryptotraderdiaryapplication.models;
 
+import org.apache.commons.math3.util.Precision;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.text.SimpleDateFormat;
@@ -42,6 +44,15 @@ public class Position {
         return id;
     }
 
+    public String getPercent(){
+        if(this.openDate != null && this.closeDate !=null){
+            double percent = (this.sellPrice/this.buyPrice) * 100 -1 ;
+            Precision.round(percent,1 );
+            return String.valueOf(percent)+"%";
+        }
+        return "0%";
+    }
+
     public void setId(int id) {
         this.id = id;
     }
@@ -60,12 +71,18 @@ public class Position {
         return date;
     }
 
-    public Date getCloseDate() {
-        return closeDate;
+    public String getCloseDate() {
+        if(this.closeDate != null) {
+            SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy");
+            String date = DATE_FORMAT.format(this.closeDate);
+            return date;
+        }
+        return "-";
     }
 
     public void setCloseDate(Date closeDate) {
-        this.closeDate = closeDate;
+        Date closingDay = new Date();
+        this.closeDate = closingDay;
     }
 
     public String getName() {

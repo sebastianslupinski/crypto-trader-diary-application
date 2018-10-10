@@ -22,6 +22,8 @@
                 <th> Name </th>
                 <th> Sell Date </th>
                 <th> Amount of BTC received </th>
+                <th> Percent </th>
+
             </tr>
         </thead>
         <tbody>
@@ -34,6 +36,7 @@
             <td><span th:text="${trade.getName()}"> Name </span></td>
             <td><span th:text="${trade.getCloseDate()}"> Sell Date </span></td>
             <td><span th:text="${trade.getSellPrice()}"> Amount of BTC received </span></td>
+            <td><span th:text="${trade.getPercent()}"> Percent </span></td>
         </tr>
         </tbody>
     </table>

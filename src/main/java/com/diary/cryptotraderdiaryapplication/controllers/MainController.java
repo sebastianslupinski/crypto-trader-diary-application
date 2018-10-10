@@ -48,21 +48,5 @@ public class MainController {
         return "main-site";
     }
 
-    @RequestMapping(value="/add-trade", method = RequestMethod.POST)
-    public String showTrades(HttpServletRequest request, Model model){
-
-        String name = request.getParameter("name");
-        Double buyPrice = Double.valueOf(request.getParameter("buy price"));
-
-        Position newTrade = new Position();
-        newTrade.setName(name);
-        newTrade.setBuyPrice(buyPrice);
-
-        positionDao.save(newTrade);
-
-        model.addAttribute("trade", newTrade.toString());
-        return "main-site";
-    }
-
 
 }
