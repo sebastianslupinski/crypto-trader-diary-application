@@ -7,6 +7,21 @@
 
 <body>
 
+<form method="post" action="/trade-closed.html">
+    <select name="trade">
+        <option value="">Select trade</option>
+        <option th:each="trade : ${trades}"
+                th:value="${trade.id}"
+                th:text="${trade.getOpenDate()}+' : '+${trade.getBuyPrice()}+' : '+${trade.getName()}"></option>
+    </select>
+
+    Amount of btc received: <input type="number" step="0.0000001" name="sell price">
+    <button type="submit">Close trade</button>
+
+</form>
+
+</div>
+
 <div>
     <footer>
         <p>Created by: Sebastian Slupinski</p>
