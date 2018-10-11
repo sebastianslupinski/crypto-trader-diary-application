@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<header>
+    <nav>
+        <ul>
+            <li><a href="add-trade.html"> Add new trade </a></li>
+            <li><a href="active-trades.html"> Show active trades </a></li>
+        </ul>
+    </nav>
+</header>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th> Buy Date </th>
+        <th> Amount of BTC paid </th>
+        <th> Name </th>
+        <th> Sell Date </th>
+        <th> Amount of BTC received </th>
+        <th> Percent </th>
+
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:if="${trades.isEmpty()}">
+        <td colspan="2"> No Trades Available </td>
+    </tr>
+    <tr th:each="trade : ${trades}">
+        <td><span th:text="${trade.getOpenDate()}"> Buy Date </span></td>
+        <td><span th:text="${trade.getBuyPrice()}"> Amount of BTC paid </span></td>
+        <td><span th:text="${trade.getName()}"> Name </span></td>
+        <td><span th:text="${trade.getCloseDate()}"> Sell Date </span></td>
+        <td><span th:text="${trade.getSellPrice()}"> Amount of BTC received </span></td>
+        <td><span th:text="${trade.getPercent()}"> Percent </span></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+
+<div>
+    <footer>
+        <p>Created by: Sebastian Slupinski</p>
+        <p>Contact information: slupinski.sebastian@gmail.com.</p>
+    </footer>
+</div>
+
+</html>
