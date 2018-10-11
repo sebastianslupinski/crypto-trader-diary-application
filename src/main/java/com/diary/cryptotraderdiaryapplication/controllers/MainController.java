@@ -59,6 +59,7 @@ public class MainController {
 
         tradeToClose.setCloseDate();
         tradeToClose.setSellPrice(sellPrice);
+        tradeToClose.closePosition();
         positionDao.save(tradeToClose);
         return "trade-closed";
     }
