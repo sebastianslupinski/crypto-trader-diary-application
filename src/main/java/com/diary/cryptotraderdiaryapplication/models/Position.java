@@ -80,9 +80,8 @@ public class Position {
         return "-";
     }
 
-    public void setCloseDate(Date closeDate) {
-        Date closingDay = new Date();
-        this.closeDate = closingDay;
+    public void setCloseDate() {
+        this.closeDate = new Date();
     }
 
     public String getName() {

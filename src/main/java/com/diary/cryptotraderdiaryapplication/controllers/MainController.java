@@ -49,6 +49,20 @@ public class MainController {
         return "close-trade";
     }
 
+    @RequestMapping(value="/trade-closed.html", method = RequestMethod.POST)
+    public String processClosedTrade(HttpServletRequest request, Model model){
+
+        Integer id = Integer.valueOf(request.getParameter("trade"));
+        Position tradeToClose = positionDao.findById(id);
+
+        Double sellPrice = Double.valueOf(request.getParameter("sell price"));
+
+        tradeToClose.setCloseDate();
+        tradeToClose.setSellPrice(sellPrice);
+        positionDao.save(tradeToClose);
+        return "trade-closed";
+    }
+
     @RequestMapping(value="/main-site.html", method = RequestMethod.POST)
     public String showMainSiteAfterAdding(HttpServletRequest request, Model model){
         String name = request.getParameter("name");
