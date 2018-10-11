@@ -46,9 +46,9 @@ public class Position {
 
     public String getPercent(){
         if(this.openDate != null && this.closeDate !=null){
-            double percent = (this.sellPrice/this.buyPrice) * 100 -1 ;
-            Precision.round(percent,1 );
-            return String.valueOf(percent)+"%";
+            double percent = (this.sellPrice/this.buyPrice) * 100 -100 ;
+            double rounded = Precision.round(percent,1 );
+            return String.valueOf(rounded)+"%";
         }
         return "0%";
     }
