@@ -40,6 +40,15 @@ public class MainController {
         return "active-trades";
     }
 
+    @RequestMapping(value="/close-trade.html", method = RequestMethod.GET)
+    public String closeTrade(Model model){
+
+        //get all trades
+        List<Position> openTrades = positionDao.findByOpen(true);
+        model.addAttribute("trades",openTrades );
+        return "close-trade";
+    }
+
     @RequestMapping(value="/main-site.html", method = RequestMethod.POST)
     public String showMainSiteAfterAdding(HttpServletRequest request, Model model){
         String name = request.getParameter("name");
@@ -56,8 +65,4 @@ public class MainController {
         model.addAttribute("trades",allTrades );
         return "main-site";
     }
-
-
-
-
 }
