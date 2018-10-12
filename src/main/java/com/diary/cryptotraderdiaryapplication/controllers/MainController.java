@@ -49,6 +49,15 @@ public class MainController {
         return "close-trade";
     }
 
+    @RequestMapping(value="/closed-trades.html", method = RequestMethod.GET)
+    public String showClosedTrades(Model model){
+
+        //get all trades
+        List<Position> closedTrades = positionDao.findByOpen(false);
+        model.addAttribute("trades",closedTrades );
+        return "closed-trades";
+    }
+
     @RequestMapping(value="/trade-closed.html", method = RequestMethod.POST)
     public String processClosedTrade(HttpServletRequest request, Model model){
 
