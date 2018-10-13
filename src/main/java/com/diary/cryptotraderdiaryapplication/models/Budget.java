@@ -1,13 +1,17 @@
 package com.diary.cryptotraderdiaryapplication.models;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Entity
 @Table(name="budget")
 public class Budget {
+
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @NotNull
+    @Column(name="id")
+    private int Id;
 
     @Column
     private Double frozenBtc;
