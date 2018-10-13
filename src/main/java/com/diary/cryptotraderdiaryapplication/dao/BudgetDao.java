@@ -12,5 +12,5 @@ public interface BudgetDao extends CrudRepository<Budget, Integer> {
 
     public List<Budget> findAll();
     public Budget findById(Integer id);
-    
+
 }

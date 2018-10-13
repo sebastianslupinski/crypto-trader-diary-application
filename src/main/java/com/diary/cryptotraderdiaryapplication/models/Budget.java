@@ -6,7 +6,7 @@ import java.util.Date;
 
 @Entity
 @Table(name="budget")
-public class Budget {
+public class Budget implements Comparable<Budget>{
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @NotNull
@@ -62,5 +62,12 @@ public class Budget {
         return this.freeBtc+this.frozenBtc;
     }
 
+    public Date getActualDate() {
+        return this.actualDate;
+    }
 
+    @Override
+    public int compareTo(Budget bud){
+        return getActualDate().compareTo(bud.getActualDate());
+    }
 }
