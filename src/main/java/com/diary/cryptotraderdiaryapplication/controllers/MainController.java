@@ -1,7 +1,10 @@
 package com.diary.cryptotraderdiaryapplication.controllers;
 
+import com.diary.cryptotraderdiaryapplication.dao.BudgetDao;
 import com.diary.cryptotraderdiaryapplication.dao.PositionDao;
+import com.diary.cryptotraderdiaryapplication.models.Budget;
 import com.diary.cryptotraderdiaryapplication.models.Position;
+import com.diary.cryptotraderdiaryapplication.models.Statistics;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +19,9 @@ public class MainController {
 
     @Autowired
     private PositionDao positionDao;
+
+    @Autowired
+    private BudgetDao budgetDao;
 
     @RequestMapping(value="/add-trade.html", method = RequestMethod.GET)
     public String addTrade(){
@@ -38,6 +44,17 @@ public class MainController {
         List<Position> openTrades = positionDao.findByOpen(true);
         model.addAttribute("trades",openTrades );
         return "active-trades";
+    }
+
+    @RequestMapping(value="/statistics.html", method = RequestMethod.GET)
+    public String showStatistics(Model model){
+
+//        Budget testBudget = new Budget(0.6456,0.456);
+        //get all trades
+        Statistics latestStatistics = new Statistics(budgetDao.findAll());
+        Budget latestBudget = latestStatistics.findNewestBudget();
+        model.addAttribute("latestBudget",latestBudget);
+        return "statistics";
     }
 
     @RequestMapping(value="/close-trade.html", method = RequestMethod.GET)

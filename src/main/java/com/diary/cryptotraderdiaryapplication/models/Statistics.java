@@ -2,18 +2,21 @@ package com.diary.cryptotraderdiaryapplication.models;
 
 import com.diary.cryptotraderdiaryapplication.dao.BudgetDao;
 import org.apache.commons.math3.util.Precision;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 public class Statistics {
 
-    private static BudgetDao budgetDao;
-    private static List<Budget> budgets;
+    private List<Budget> budgets;
+
+    public Statistics(List<Budget> budgets){
+        this.budgets = budgets;
+    }
 
     //gets unique budgets conditions, unique - only one per day
-    private static List getUniqueBudgets(){
-        budgets = budgetDao.findAll();
+    private List getUniqueBudgets(){
         HashMap<Date, Budget> mapa = new HashMap<>();
         for(Budget budget : budgets){
             if(mapa.containsKey(budget.getActualDate())) {
@@ -33,7 +36,7 @@ public class Statistics {
     }
 
     //calculate average percentage income or outcome per day
-    public static Double getAveragePercent(){
+    public Double getAveragePercent(){
         List<Budget> uniqueBudgets = getUniqueBudgets();
         double sumOfPercent = 0;
         double average = 0;
@@ -50,23 +53,24 @@ public class Statistics {
         return Precision.round(average,1 );
     }
 
-    private static long getDifferenceDays() {
+    private long getDifferenceDays() {
         Date oldestDate = findOldestBudget().getActualDate();
         Date newestDate = findNewestBudget().getActualDate();
         long diff = newestDate.getTime() - oldestDate.getTime();
         return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
     }
 
-    private static Budget findOldestBudget(){
+    private Budget findOldestBudget(){
         Collections.sort(budgets);
         System.out.println(budgets.get(0).getActualDate().toString());
         return budgets.get(0);
     }
 
-    private static Budget findNewestBudget(){
+    public Budget findNewestBudget(){
+        if(budgets.size()==0){
+            return new Budget();
+        }
         Collections.sort(budgets);
-        System.out.println(budgets.get(budgets.size()-1).getActualDate().toString());
         return budgets.get(budgets.size()-1);
     }
-
 }

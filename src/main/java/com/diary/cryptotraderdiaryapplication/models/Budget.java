@@ -24,6 +24,9 @@ public class Budget implements Comparable<Budget>{
     private Date actualDate;
 
     public Budget(){
+        this.frozenBtc = 0.0;
+        this.freeBtc = 0.0;
+
     }
 
     public Budget(Double frozenBudget, Double freeBudget){
