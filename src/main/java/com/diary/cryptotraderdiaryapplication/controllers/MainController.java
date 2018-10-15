@@ -28,6 +28,11 @@ public class MainController {
         return "add-trade";
     }
 
+    @RequestMapping(value="/add-budget.html", method = RequestMethod.GET)
+    public String addBudget(){
+        return "add-budget";
+    }
+
     @RequestMapping(value="/main-site.html", method = RequestMethod.GET)
     public String showMainSite(Model model){
 
