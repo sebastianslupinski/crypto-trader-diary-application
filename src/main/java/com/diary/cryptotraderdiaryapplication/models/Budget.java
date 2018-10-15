@@ -15,6 +15,9 @@ public class Budget implements Comparable<Budget>{
     private Integer id;
 
     @Column
+    private boolean added;
+
+    @Column
     private Double frozenBtc;
 
     @Column
@@ -26,6 +29,10 @@ public class Budget implements Comparable<Budget>{
     public Budget(){
         this.frozenBtc = 0.0;
         this.freeBtc = 0.0;
+    }
+
+    public boolean isAdded(){
+        return this.added;
     }
 
     public Budget(Double frozenBudget, Double freeBudget){
@@ -43,6 +50,7 @@ public class Budget implements Comparable<Budget>{
 
     public void addBudget(Double amount){
         this.freeBtc+=amount;
+        this.added = true;
     }
 
     public void freezeBudget(Double amount){

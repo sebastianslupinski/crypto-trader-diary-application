@@ -53,6 +53,46 @@ public class Statistics {
         return Precision.round(average,1 );
     }
 
+    public Double getAveragePercent2(){
+        double sumOfPercent = 0;
+        double average;
+        double sameDayPercent = 0;
+        double budgetsInDay = 1;
+        for(int i = 0 ; i<budgets.size() ; i++){
+            if(i==0){
+                continue;
+            }
+            if(budgets.get(i).isAdded()){
+                continue;
+            }
+            if(areSameDay(budgets.get(i-1).getActualDate(),budgets.get(i).getActualDate() )){
+                sameDayPercent += (budgets.get(i).getGeneralBudget()/budgets.get(i-1).getGeneralBudget()) *100 -100;
+                budgetsInDay++;
+            }
+            else{
+                sumOfPercent+= sameDayPercent/budgetsInDay;
+                sameDayPercent=0;
+                budgetsInDay=1;
+                sameDayPercent = (budgets.get(i).getGeneralBudget()/budgets.get(i-1).getGeneralBudget()) *100 -100;
+            }
+        }
+
+        sumOfPercent+=sameDayPercent/budgetsInDay;
+        long sumOfDays = getDifferenceDays();
+        average = sumOfPercent/sumOfDays;
+        return average;
+    }
+
+    public static boolean areSameDay(Date date1, Date date2){
+        Calendar cal1 = Calendar.getInstance();
+        Calendar cal2 = Calendar.getInstance();
+        cal1.setTime(date1);
+        cal2.setTime(date2);
+        boolean sameDay = cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR) &&
+                cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR);
+        return sameDay;
+    }
+
     private long getDifferenceDays() {
         Date oldestDate = findOldestBudget().getActualDate();
         Date newestDate = findNewestBudget().getActualDate();

@@ -62,6 +62,17 @@ public class MainController {
         return "statistics";
     }
 
+    @RequestMapping(value="/statistics.html", method = RequestMethod.POST)
+    public String showStatisticsAfterAddingBudget(Model model){
+
+//        Budget testBudget = new Budget(0.6456,0.456);
+        //get all trades
+        Statistics latestStatistics = new Statistics(budgetDao.findAll());
+        Budget latestBudget = latestStatistics.findNewestBudget();
+        model.addAttribute("latestBudget",latestBudget);
+        return "statistics";
+    }
+
     @RequestMapping(value="/close-trade.html", method = RequestMethod.GET)
     public String closeTrade(Model model){
 
