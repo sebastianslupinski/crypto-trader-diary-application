@@ -93,11 +93,11 @@ public class Position {
     }
 
     public double getBuyPrice() {
-        return Precision.round(buyPrice,5 );
+        return this.buyPrice;
     }
 
     public void setBuyPrice(double buyPrice) {
-        this.buyPrice = buyPrice;
+        this.buyPrice = Precision.round(buyPrice,5 );
     }
 
     public double getSellPrice() {
