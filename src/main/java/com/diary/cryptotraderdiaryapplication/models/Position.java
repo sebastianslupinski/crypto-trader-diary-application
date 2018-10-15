@@ -40,7 +40,7 @@ public class Position {
         this.open = true;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -93,7 +93,7 @@ public class Position {
     }
 
     public double getBuyPrice() {
-        return buyPrice;
+        return Precision.round(buyPrice,5 );
     }
 
     public void setBuyPrice(double buyPrice) {

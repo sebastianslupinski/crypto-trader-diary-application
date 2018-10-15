@@ -8,10 +8,11 @@ import java.util.Date;
 @Table(name="budget")
 public class Budget implements Comparable<Budget>{
 
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @NotNull
     @Column(name="id")
-    private int Id;
+    private Integer id;
 
     @Column
     private Double frozenBtc;

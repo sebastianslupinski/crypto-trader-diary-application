@@ -1,14 +1,19 @@
 package com.diary.cryptotraderdiaryapplication.models;
 
+import com.diary.cryptotraderdiaryapplication.dao.BudgetDao;
+import org.apache.commons.math3.util.Precision;
+
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 public class Statistics {
 
-    private static List<Budget> budgets = new ArrayList<>();
+    private static BudgetDao budgetDao;
+    private static List<Budget> budgets;
 
     //gets unique budgets conditions, unique - only one per day
     private static List getUniqueBudgets(){
+        budgets = budgetDao.findAll();
         HashMap<Date, Budget> mapa = new HashMap<>();
         for(Budget budget : budgets){
             if(mapa.containsKey(budget.getActualDate())) {
@@ -42,7 +47,7 @@ public class Statistics {
 
         long sumOfDays = getDifferenceDays();
         average = sumOfPercent/sumOfDays;
-        return average;
+        return Precision.round(average,1 );
     }
 
     private static long getDifferenceDays() {
