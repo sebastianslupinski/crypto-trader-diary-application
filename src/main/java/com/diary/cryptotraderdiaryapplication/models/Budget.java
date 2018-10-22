@@ -54,6 +54,7 @@ public class Budget implements Comparable<Budget>{
         this.added = true;
     }
 
+    //this method might be unnecessary
     public void freezeBudget(Double amount){
         if(amount>freeBtc){
             System.out.println("Balance is too low");

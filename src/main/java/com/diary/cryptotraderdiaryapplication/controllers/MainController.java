@@ -127,16 +127,25 @@ public class MainController {
             model.addAttribute("errorMessage","Your budget is too small" );
             return "error-site";
         }
-        
+
         Position newTrade = new Position();
         newTrade.setName(name);
         newTrade.setBuyPrice(buyPrice);
 
         positionDao.save(newTrade);
+        updateBudgetAfterTradeOpening(buyPrice);
 
         //get all trades
         List<Position> allTrades = positionDao.findAll();
         model.addAttribute("trades",allTrades );
         return "main-site";
+    }
+
+    public void updateBudgetAfterTradeOpening(Double buyPrice){
+        Statistics latestStatistics = new Statistics(budgetDao.findAll());
+        Budget latestBudget = latestStatistics.findNewestBudget();
+        Budget updatedBudget = new Budget(latestBudget.getFrozenBtc(), latestBudget.getFreeBtc());
+        updatedBudget.freezeBudget(buyPrice);
+        budgetDao.save(updatedBudget);
     }
 }
