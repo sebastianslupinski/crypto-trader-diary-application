@@ -113,4 +113,12 @@ public class Statistics {
         Collections.sort(budgets);
         return budgets.get(budgets.size()-1);
     }
+
+    public Boolean checkIfBuyingIsPossible(Double buyPrice){
+        Budget latestBudget = findNewestBudget();
+        if(latestBudget.getFreeBtc()<buyPrice){
+            return false;
+        }
+        return true;
+    }
 }
