@@ -2,6 +2,7 @@ package com.diary.cryptotraderdiaryapplication.models;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 import java.util.Date;
 
 @Entity
@@ -72,7 +73,7 @@ public class Budget implements Comparable<Budget>{
     }
 
     public Double getGeneralBudget(){
-        return this.freeBtc+this.frozenBtc;
+        return roundValue(this.freeBtc + this.frozenBtc);
     }
 
     public Date getActualDate() {
@@ -84,11 +85,17 @@ public class Budget implements Comparable<Budget>{
     }
 
     public Double getFrozenBtc() {
-        return frozenBtc;
+        return roundValue(this.frozenBtc);
     }
 
     public Double getFreeBtc() {
-        return freeBtc;
+        return roundValue(this.freeBtc);
+    }
+
+    public double roundValue(Double value){
+        BigDecimal bd = new BigDecimal(value);
+        bd = bd.setScale(6, BigDecimal.ROUND_HALF_UP);
+        return bd.doubleValue();
     }
 
     @Override
