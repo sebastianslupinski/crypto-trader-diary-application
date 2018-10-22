@@ -59,6 +59,9 @@ public class MainController {
         Statistics latestStatistics = new Statistics(budgetDao.findAll());
         Budget latestBudget = latestStatistics.findNewestBudget();
         model.addAttribute("latestBudget",latestBudget);
+        model.addAttribute("freeBudget",latestBudget.getFreeBtc());
+        model.addAttribute("frozenBudget",latestBudget.getFrozenBtc());
+
         return "statistics";
     }
 
@@ -79,6 +82,8 @@ public class MainController {
         budgetDao.save(newBudget);
 
         model.addAttribute("latestBudget",newBudget);
+        model.addAttribute("freeBudget",newBudget.getFreeBtc());
+        model.addAttribute("frozenBudget",newBudget.getFrozenBtc());
         return "statistics";
     }
 
