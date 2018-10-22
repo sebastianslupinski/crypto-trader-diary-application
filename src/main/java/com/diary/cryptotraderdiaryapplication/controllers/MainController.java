@@ -63,13 +63,22 @@ public class MainController {
     }
 
     @RequestMapping(value="/statistics.html", method = RequestMethod.POST)
-    public String showStatisticsAfterAddingBudget(Model model){
+    public String showStatisticsAfterAddingBudget(HttpServletRequest request, Model model){
 
 //        Budget testBudget = new Budget(0.6456,0.456);
         //get all trades
+
+        Double addedBudget = Double.valueOf(request.getParameter("budget"));
         Statistics latestStatistics = new Statistics(budgetDao.findAll());
         Budget latestBudget = latestStatistics.findNewestBudget();
-        model.addAttribute("latestBudget",latestBudget);
+
+        //creating new instance of budget and fulfill it with
+        //latest state of btc amount
+        Budget newBudget = new Budget(latestBudget.getFrozenBtc(), latestBudget.getFreeBtc());
+        newBudget.addBudget(addedBudget);
+        budgetDao.save(newBudget);
+
+        model.addAttribute("newBudget",latestBudget);
         return "statistics";
     }
 
