@@ -78,7 +78,7 @@ public class MainController {
         newBudget.addBudget(addedBudget);
         budgetDao.save(newBudget);
 
-        model.addAttribute("newBudget",latestBudget);
+        model.addAttribute("latestBudget",newBudget);
         return "statistics";
     }
 

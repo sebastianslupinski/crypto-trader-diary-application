@@ -13,7 +13,7 @@ public class Budget implements Comparable<Budget>{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @NotNull
     @Column(name="id")
-    private Integer id;
+    private int id;
 
     @Column
     private boolean added;
@@ -78,7 +78,7 @@ public class Budget implements Comparable<Budget>{
         return this.actualDate;
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
