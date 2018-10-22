@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello Form</title>
+</head>
+
+<body>
+
+<header>
+    <nav>
+        <ul>
+            <li><a href="add-budget.html"> Add budget </a></li>
+            <li><a href="add-trade.html"> Add new trade </a></li>
+            <li><a href="main-site.html"> Show all trades </a></li>
+            <li><a href="active-trades.html"> Show open trades </a></li>
+            <li><a href="close-trade.html"> Close trade </a></li>
+            <li><a href="closed-trades.html"> Show closed trades </a></li>
+            <li><a href="statistics.html"> Show statistics </a></li>
+        </ul>
+    </nav>
+</header>
+
+<p><span th:text="${errorMessage}"></span></p>
+
+<div>
+    <footer>
+        <p>Created by: Sebastian Slupinski</p>
+        <p>Contact information: slupinski.sebastian@gmail.com.</p>
+    </footer>
+</div>
+
+</body>
+</html>

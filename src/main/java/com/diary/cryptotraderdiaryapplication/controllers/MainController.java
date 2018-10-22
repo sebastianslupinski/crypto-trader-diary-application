@@ -117,9 +117,17 @@ public class MainController {
 
     @RequestMapping(value="/main-site.html", method = RequestMethod.POST)
     public String showMainSiteAfterAdding(HttpServletRequest request, Model model){
+
         String name = request.getParameter("name");
         Double buyPrice = Double.valueOf(request.getParameter("buy price"));
 
+        Statistics latestStatistics = new Statistics(budgetDao.findAll());
+
+        if(!latestStatistics.checkIfBuyingIsPossible(buyPrice)){
+            model.addAttribute("errorMessage","Your budget is too small" );
+            return "error-site";
+        }
+        
         Position newTrade = new Position();
         newTrade.setName(name);
         newTrade.setBuyPrice(buyPrice);
