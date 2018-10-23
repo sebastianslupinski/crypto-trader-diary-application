@@ -85,6 +85,7 @@ public class MainController {
         model.addAttribute("latestBudget",newBudget);
         model.addAttribute("freeBudget",newBudget.getFreeBtc());
         model.addAttribute("frozenBudget",newBudget.getFrozenBtc());
+        model.addAttribute("averageDay", latestStatistics.getAveragePercent2());
         return "statistics";
     }
 

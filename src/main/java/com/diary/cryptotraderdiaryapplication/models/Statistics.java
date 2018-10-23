@@ -4,6 +4,7 @@ import com.diary.cryptotraderdiaryapplication.dao.BudgetDao;
 import org.apache.commons.math3.util.Precision;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.math.BigDecimal;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -51,6 +52,21 @@ public class Statistics {
         long sumOfDays = getDifferenceDays();
         average = sumOfPercent/sumOfDays;
         return Precision.round(average,1 );
+    }
+
+    public Double getDaysPrediction(int days){
+
+        Double averageDayPercent = Double.valueOf(getAveragePercent2());
+        averageDayPercent = averageDayPercent+100;
+        averageDayPercent = averageDayPercent/100;
+        Budget newest = findNewestBudget();
+        Double result = findNewestBudget().getGeneralBudget();
+
+        for(int i = 1 ; i<=days ; i++){
+            result = result*averageDayPercent;
+        }
+
+        return roundValue(result);
     }
 
     public String getAveragePercent2(){
@@ -122,5 +138,11 @@ public class Statistics {
             return false;
         }
         return true;
+    }
+
+    public double roundValue(Double value){
+        BigDecimal bd = new BigDecimal(value);
+        bd = bd.setScale(6, BigDecimal.ROUND_HALF_UP);
+        return bd.doubleValue();
     }
 }
