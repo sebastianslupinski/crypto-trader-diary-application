@@ -58,6 +58,12 @@ public class MainController {
 
         Statistics latestStatistics = new Statistics(budgetDao.findAll());
         Budget latestBudget = latestStatistics.findNewestBudget();
+
+        if(decreasedValue>latestBudget.getFreeBtc()){
+            model.addAttribute("errorMessage","You don't have enough free BTC to \"withdraw\" such amount" );
+            return "statement-site";
+        }
+        
         Budget newBudget = new Budget(latestBudget.getFrozenBtc(), latestBudget.getFreeBtc());
         newBudget.decreaseBudget(decreasedValue);
 
@@ -105,10 +111,12 @@ public class MainController {
     }
 
     @RequestMapping(value="/statistics.html", method = RequestMethod.POST)
-    public String showStatisticsAfterAddingBudget(HttpServletRequest request, Model model){
+    public String showStatementAfterAddingBudget(HttpServletRequest request, Model model){
 
-//        Budget testBudget = new Budget(0.6456,0.456);
-        //get all trades
+        if(request.getParameter("budget").length()==0){
+            model.addAttribute("errorMessage","You must provide some value");
+            return "statement-site";
+        }
 
         Double addedBudget = Double.valueOf(request.getParameter("budget"));
 
@@ -126,17 +134,8 @@ public class MainController {
         newBudget.addBudget(addedBudget);
         budgetDao.save(newBudget);
 
-        latestStatistics = new Statistics(budgetDao.findAll());
-
-        model.addAttribute("latestBudget",newBudget);
-        model.addAttribute("freeBudget",newBudget.getFreeBtc());
-        model.addAttribute("frozenBudget",newBudget.getFrozenBtc());
-        model.addAttribute("averageDay", latestStatistics.getAveragePercent2());
-        model.addAttribute("prediction30", latestStatistics.getDaysPrediction(30));
-        model.addAttribute("prediction90", latestStatistics.getDaysPrediction(90));
-        model.addAttribute("prediction180", latestStatistics.getDaysPrediction(180));
-        model.addAttribute("prediction360", latestStatistics.getDaysPrediction(360));
-        return "statistics";
+        model.addAttribute("errorMessage","You increased your budget successfully");
+        return "statement-site";
     }
 
 
