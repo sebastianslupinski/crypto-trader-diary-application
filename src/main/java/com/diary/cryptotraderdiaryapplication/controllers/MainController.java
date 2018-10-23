@@ -67,8 +67,6 @@ public class MainController {
         model.addAttribute("prediction180", latestStatistics.getDaysPrediction(180));
         model.addAttribute("prediction360", latestStatistics.getDaysPrediction(360));
 
-
-
         return "statistics";
     }
 
@@ -132,6 +130,10 @@ public class MainController {
     @RequestMapping(value="/trade-closed.html", method = RequestMethod.POST)
     public String processClosedTrade(HttpServletRequest request, Model model){
 
+        if((request.getParameter("sell price").length()==0) || (request.getParameter("trade").length()==0)){
+            model.addAttribute("errorMessage","Trade not selected or selling price not given");
+            return "error-site";
+        }
 
         Statistics latestStatistics = new Statistics(budgetDao.findAll());
         Budget latestBudget = latestStatistics.findNewestBudget();
@@ -141,6 +143,7 @@ public class MainController {
         Position tradeToClose = positionDao.findById(id);
 
         Double sellPrice = Double.valueOf(request.getParameter("sell price"));
+
         updatedBudget.unfreezeBudget(tradeToClose.getBuyPrice(),sellPrice);
 
         tradeToClose.setCloseDate();
