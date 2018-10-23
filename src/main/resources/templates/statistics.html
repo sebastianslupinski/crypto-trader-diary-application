@@ -20,10 +20,14 @@
     </nav>
 </header>
 
-<p>General budget : <span th:text="${latestBudget.getGeneralBudget()}"></span></p>
-<p>Free budget : <span th:text="${freeBudget}"></span></p>
-<p>Frozen budget : <span th:text="${frozenBudget}"></span></p>
+<p>General budget : <span th:text="${latestBudget.getGeneralBudget()}"></span>BTC</p>
+<p>Free budget : <span th:text="${freeBudget}"></span> BTC</p>
+<p>Frozen budget : <span th:text="${frozenBudget}"></span> BTC</p>
 <p>Average percent per day : <span th:text="${averageDay}"></span></p>
+<p>Prediction of your general in next month : <span th:text="${prediction30}"></span> BTC</p>
+<p>3 month : <span th:text="${prediction90}"></span> BTC</p>
+<p>6 month : <span th:text="${prediction180}"></span> BTC</p>
+<p>one year : <span th:text="${prediction360}"></span> BTC</p>
 
 
 </body>

@@ -61,7 +61,13 @@ public class MainController {
         model.addAttribute("latestBudget",latestBudget);
         model.addAttribute("freeBudget",latestBudget.getFreeBtc());
         model.addAttribute("frozenBudget",latestBudget.getFrozenBtc());
-        model.addAttribute("averageDay", latestStatistics.getAveragePercent2());
+        model.addAttribute("averageDay", latestStatistics.getAveragePercent2()+"%");
+        model.addAttribute("prediction30", latestStatistics.getDaysPrediction(30));
+        model.addAttribute("prediction90", latestStatistics.getDaysPrediction(90));
+        model.addAttribute("prediction180", latestStatistics.getDaysPrediction(180));
+        model.addAttribute("prediction360", latestStatistics.getDaysPrediction(360));
+
+
 
         return "statistics";
     }
@@ -86,6 +92,10 @@ public class MainController {
         model.addAttribute("freeBudget",newBudget.getFreeBtc());
         model.addAttribute("frozenBudget",newBudget.getFrozenBtc());
         model.addAttribute("averageDay", latestStatistics.getAveragePercent2());
+        model.addAttribute("prediction30", latestStatistics.getDaysPrediction(30));
+        model.addAttribute("prediction90", latestStatistics.getDaysPrediction(90));
+        model.addAttribute("prediction180", latestStatistics.getDaysPrediction(180));
+        model.addAttribute("prediction360", latestStatistics.getDaysPrediction(360));
         return "statistics";
     }
 

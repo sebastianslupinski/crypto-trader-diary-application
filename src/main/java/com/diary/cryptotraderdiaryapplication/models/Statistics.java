@@ -59,7 +59,6 @@ public class Statistics {
         Double averageDayPercent = Double.valueOf(getAveragePercent2());
         averageDayPercent = averageDayPercent+100;
         averageDayPercent = averageDayPercent/100;
-        Budget newest = findNewestBudget();
         Double result = findNewestBudget().getGeneralBudget();
 
         for(int i = 1 ; i<=days ; i++){
@@ -98,7 +97,7 @@ public class Statistics {
         if(sumOfDays==0){ sumOfDays=1; }
         average = sumOfPercent/sumOfDays;
         double averageRounded = Precision.round(average,1 );
-        return String.valueOf(averageRounded)+"%";
+        return String.valueOf(averageRounded);
     }
 
     public static boolean areSameDay(Date date1, Date date2){
