@@ -108,15 +108,23 @@ public class MainController {
     @RequestMapping(value="/trade-closed.html", method = RequestMethod.POST)
     public String processClosedTrade(HttpServletRequest request, Model model){
 
+
+        Statistics latestStatistics = new Statistics(budgetDao.findAll());
+        Budget latestBudget = latestStatistics.findNewestBudget();
+        Budget updatedBudget = new Budget(latestBudget.getFrozenBtc(), latestBudget.getFreeBtc());
+
         Integer id = Integer.valueOf(request.getParameter("trade"));
         Position tradeToClose = positionDao.findById(id);
 
         Double sellPrice = Double.valueOf(request.getParameter("sell price"));
+        updatedBudget.unfreezeBudget(tradeToClose.getBuyPrice(),sellPrice);
 
         tradeToClose.setCloseDate();
         tradeToClose.setSellPrice(sellPrice);
         tradeToClose.closePosition();
         positionDao.save(tradeToClose);
+        budgetDao.save(updatedBudget);
+
         return "trade-closed";
     }
 
@@ -149,8 +157,7 @@ public class MainController {
     public void updateBudgetAfterTradeOpening(Double buyPrice){
         Statistics latestStatistics = new Statistics(budgetDao.findAll());
         Budget latestBudget = latestStatistics.findNewestBudget();
-        Budget updatedBudget = new Budget(latestBudget.getFrozenBtc(), latestBudget.getFreeBtc());
-        updatedBudget.freezeBudget(buyPrice);
-        budgetDao.save(updatedBudget);
+        latestBudget.freezeBudget(buyPrice);
+        budgetDao.save(latestBudget);
     }
 }
