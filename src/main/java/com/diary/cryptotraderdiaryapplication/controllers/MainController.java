@@ -52,7 +52,14 @@ public class MainController {
             model.addAttribute("errorMessage","Value must be positive" );
             return "statement-site";
         }
-        
+
+        Statistics latestStatistics = new Statistics(budgetDao.findAll());
+        Budget latestBudget = latestStatistics.findNewestBudget();
+        Budget newBudget = new Budget(latestBudget.getFrozenBtc(), latestBudget.getFreeBtc());
+        newBudget.decreaseBudget(decreasedValue);
+
+        budgetDao.save(newBudget);
+
         model.addAttribute("errorMessage","You decreased your budget successfully" );
         return "statement-site";
     }

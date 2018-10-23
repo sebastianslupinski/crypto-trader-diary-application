@@ -17,7 +17,7 @@ public class Budget implements Comparable<Budget>{
     private int id;
 
     @Column
-    private boolean added;
+    private boolean changed;
 
     @Column
     private Double frozenBtc;
@@ -34,7 +34,7 @@ public class Budget implements Comparable<Budget>{
     }
 
     public boolean isAdded(){
-        return this.added;
+        return this.changed;
     }
 
     public Budget(Double frozenBudget, Double freeBudget){
@@ -52,7 +52,12 @@ public class Budget implements Comparable<Budget>{
 
     public void addBudget(Double amount){
         this.freeBtc+=amount;
-        this.added = true;
+        this.changed = true;
+    }
+
+    public void decreaseBudget(Double amount){
+        this.freeBtc-=amount;
+        this.changed = true;
     }
 
     //this method might be unnecessary

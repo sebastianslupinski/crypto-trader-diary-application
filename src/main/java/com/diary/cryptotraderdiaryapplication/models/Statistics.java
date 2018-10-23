@@ -69,6 +69,11 @@ public class Statistics {
     }
 
     public String getAveragePercent2(){
+
+        if(budgets.size()==0){
+            return "0";
+        }
+
         double sumOfPercent = 0;
         double average;
         double sameDayPercent = 0;
@@ -119,7 +124,6 @@ public class Statistics {
 
     private Budget findOldestBudget(){
         Collections.sort(budgets);
-        System.out.println(budgets.get(0).getActualDate().toString());
         return budgets.get(0);
     }
 
