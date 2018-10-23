@@ -53,7 +53,7 @@ public class Statistics {
         return Precision.round(average,1 );
     }
 
-    public Double getAveragePercent2(){
+    public String getAveragePercent2(){
         double sumOfPercent = 0;
         double average;
         double sameDayPercent = 0;
@@ -79,8 +79,10 @@ public class Statistics {
 
         sumOfPercent+=sameDayPercent/budgetsInDay;
         long sumOfDays = getDifferenceDays();
+        if(sumOfDays==0){ sumOfDays=1; }
         average = sumOfPercent/sumOfDays;
-        return average;
+        double averageRounded = Precision.round(average,1 );
+        return String.valueOf(averageRounded)+"%";
     }
 
     public static boolean areSameDay(Date date1, Date date2){
