@@ -33,6 +33,30 @@ public class MainController {
         return "add-budget";
     }
 
+    @RequestMapping(value="/decrease-budget.html", method = RequestMethod.GET)
+    public String decreaseBudget(){
+        return "decrease-budget";
+    }
+
+    @RequestMapping(value = "/statement-site.html", method = RequestMethod.POST)
+    public String showStatementAfterDecreasingBudget(HttpServletRequest request, Model model){
+
+        if(request.getParameter("budget").length()==0){
+            model.addAttribute("errorMessage","You must provide some btc value" );
+            return "statement-site";
+        }
+
+        Double decreasedValue = Double.valueOf(request.getParameter("budget"));
+
+        if(decreasedValue<0){
+            model.addAttribute("errorMessage","Value must be positive" );
+            return "statement-site";
+        }
+        
+        model.addAttribute("errorMessage","You decreased your budget successfully" );
+        return "statement-site";
+    }
+
     @RequestMapping(value="/main-site.html", method = RequestMethod.GET)
     public String showMainSite(Model model){
 
@@ -80,7 +104,7 @@ public class MainController {
 
         if(addedBudget<0){
             model.addAttribute("errorMessage","You cannot add negative number");
-            return "error-site";
+            return "statement-site";
         }
 
         Statistics latestStatistics = new Statistics(budgetDao.findAll());
@@ -103,6 +127,7 @@ public class MainController {
         return "statistics";
     }
 
+
     @RequestMapping(value="/close-trade.html", method = RequestMethod.GET)
     public String closeTrade(Model model){
 
@@ -111,7 +136,7 @@ public class MainController {
 
         if(openTrades.size()==0){
             model.addAttribute("errorMessage","You don't have any opened positions" );
-            return "error-site";
+            return "statement-site";
         }
 
         model.addAttribute("trades",openTrades );
@@ -132,7 +157,7 @@ public class MainController {
 
         if((request.getParameter("sell price").length()==0) || (request.getParameter("trade").length()==0)){
             model.addAttribute("errorMessage","Trade not selected or selling price not given");
-            return "error-site";
+            return "statement-site";
         }
 
         Statistics latestStatistics = new Statistics(budgetDao.findAll());
@@ -165,7 +190,7 @@ public class MainController {
 
         if(!latestStatistics.checkIfBuyingIsPossible(buyPrice)){
             model.addAttribute("errorMessage","Your budget is too small" );
-            return "error-site";
+            return "statement-site";
         }
 
         Position newTrade = new Position();
