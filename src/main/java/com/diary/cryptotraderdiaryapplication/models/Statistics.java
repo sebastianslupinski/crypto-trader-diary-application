@@ -82,7 +82,7 @@ public class Statistics {
             if(i==0){
                 continue;
             }
-            if(budgets.get(i).isAdded()){
+            if(budgets.get(i).isChanged()){
                 continue;
             }
             if(areSameDay(budgets.get(i-1).getActualDate(),budgets.get(i).getActualDate() )){

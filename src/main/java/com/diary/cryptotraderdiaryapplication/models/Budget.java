@@ -33,7 +33,7 @@ public class Budget implements Comparable<Budget>{
         this.freeBtc = 0.0;
     }
 
-    public boolean isAdded(){
+    public boolean isChanged(){
         return this.changed;
     }
 

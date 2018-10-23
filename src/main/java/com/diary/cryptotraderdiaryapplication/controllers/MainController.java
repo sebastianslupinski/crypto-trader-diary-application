@@ -34,7 +34,10 @@ public class MainController {
     }
 
     @RequestMapping(value="/decrease-budget.html", method = RequestMethod.GET)
-    public String decreaseBudget(){
+    public String decreaseBudget(Model model){
+        Statistics latestStatistics = new Statistics(budgetDao.findAll());
+        Budget latest = latestStatistics.findNewestBudget();
+        model.addAttribute("btcFree",latest.getFreeBtc());
         return "decrease-budget";
     }
 
@@ -122,6 +125,8 @@ public class MainController {
         Budget newBudget = new Budget(latestBudget.getFrozenBtc(), latestBudget.getFreeBtc());
         newBudget.addBudget(addedBudget);
         budgetDao.save(newBudget);
+
+        latestStatistics = new Statistics(budgetDao.findAll());
 
         model.addAttribute("latestBudget",newBudget);
         model.addAttribute("freeBudget",newBudget.getFreeBtc());
