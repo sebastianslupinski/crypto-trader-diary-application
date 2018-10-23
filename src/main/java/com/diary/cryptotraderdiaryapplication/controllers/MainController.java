@@ -79,6 +79,12 @@ public class MainController {
         //get all trades
 
         Double addedBudget = Double.valueOf(request.getParameter("budget"));
+
+        if(addedBudget<0){
+            model.addAttribute("errorMessage","You cannot add negative number");
+            return "error-site";
+        }
+
         Statistics latestStatistics = new Statistics(budgetDao.findAll());
         Budget latestBudget = latestStatistics.findNewestBudget();
 
@@ -104,6 +110,12 @@ public class MainController {
 
         //get all trades
         List<Position> openTrades = positionDao.findByOpen(true);
+
+        if(openTrades.size()==0){
+            model.addAttribute("errorMessage","You don't have any opened positions" );
+            return "error-site";
+        }
+
         model.addAttribute("trades",openTrades );
         return "close-trade";
     }
