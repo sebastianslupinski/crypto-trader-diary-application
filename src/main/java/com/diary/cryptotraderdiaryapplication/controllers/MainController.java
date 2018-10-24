@@ -163,7 +163,7 @@ public class MainController {
     public String editOpenPrice(Model model){
 
         //get all trades
-        List<Position> allTrades = positionDao.findAll();
+        List<Position> allTrades = positionDao.findByOpen(true);
 
         if(allTrades.size()==0){
             model.addAttribute("errorMessage","You don't have any opened positions" );
@@ -171,7 +171,41 @@ public class MainController {
         }
 
         model.addAttribute("trades",allTrades );
-        return "close-trade";
+        return "edit-open-price";
+    }
+
+    @RequestMapping(value="/edit-open-price.html", method = RequestMethod.POST)
+    public String submitEditingOpenPrice(HttpServletRequest request, Model model){
+
+        if((request.getParameter("open price").length()==0) || (request.getParameter("trade").length()==0)){
+            model.addAttribute("errorMessage","Trade not selected or open price not given");
+            return "statement-site";
+        }
+
+        Statistics latestStatistics = new Statistics(budgetDao.findAll());
+        Budget latestBudget = latestStatistics.findNewestBudget();
+
+        Integer id = Integer.valueOf(request.getParameter("trade"));
+        Position tradeToEdit = positionDao.findById(id);
+
+        Double editedOpenPrice = Double.valueOf(request.getParameter("open price"));
+
+        if(editedOpenPrice>tradeToEdit.getBuyPrice()){
+            if(editedOpenPrice-tradeToEdit.getBuyPrice()>latestBudget.getFreeBtc()){
+                model.addAttribute("errorMessage","You don't have enough free btc");
+                return "statement-site";
+            }
+        }
+        
+        latestBudget.unfreezeBudget(tradeToEdit.getBuyPrice(), tradeToEdit.getBuyPrice());
+        tradeToEdit.setBuyPrice(editedOpenPrice);
+        latestBudget.freezeBudget(editedOpenPrice);
+        budgetDao.save(latestBudget);
+        positionDao.save(tradeToEdit);
+
+        model.addAttribute("errorMessage","Trade open price edited successfully !");
+
+        return "statement-site";
     }
 
     @RequestMapping(value="/closed-trades.html", method = RequestMethod.GET)
