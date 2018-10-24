@@ -63,7 +63,7 @@ public class MainController {
             model.addAttribute("errorMessage","You don't have enough free BTC to \"withdraw\" such amount" );
             return "statement-site";
         }
-        
+
         Budget newBudget = new Budget(latestBudget.getFrozenBtc(), latestBudget.getFreeBtc());
         newBudget.decreaseBudget(decreasedValue);
 
