@@ -33,6 +33,11 @@ public class MainController {
         return "add-budget";
     }
 
+    @RequestMapping(value="/edit-trade.html", method = RequestMethod.GET)
+    public String editTrade(){
+        return "edit-trade";
+    }
+
     @RequestMapping(value="/decrease-budget.html", method = RequestMethod.GET)
     public String decreaseBudget(Model model){
         Statistics latestStatistics = new Statistics(budgetDao.findAll());
