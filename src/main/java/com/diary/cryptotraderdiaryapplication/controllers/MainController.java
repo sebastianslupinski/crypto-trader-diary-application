@@ -159,6 +159,21 @@ public class MainController {
         return "close-trade";
     }
 
+    @RequestMapping(value="/edit-open-price.html", method = RequestMethod.GET)
+    public String editOpenPrice(Model model){
+
+        //get all trades
+        List<Position> allTrades = positionDao.findAll();
+
+        if(allTrades.size()==0){
+            model.addAttribute("errorMessage","You don't have any opened positions" );
+            return "statement-site";
+        }
+
+        model.addAttribute("trades",allTrades );
+        return "close-trade";
+    }
+
     @RequestMapping(value="/closed-trades.html", method = RequestMethod.GET)
     public String showClosedTrades(Model model){
 

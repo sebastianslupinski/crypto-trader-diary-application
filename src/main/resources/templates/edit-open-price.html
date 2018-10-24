@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello Form</title>
+</head>
+
+<body>
+
+<form method="post" action="/statement-site.html">
+    <select name="trade">
+        <option value="">Select trade</option>
+        <option th:each="trade : ${trades}"
+                th:value="${trade.id}"
+                th:text="${trade.getOpenDate()}+' : '+${trade.getBuyPrice()}+' : '+${trade.getName()}' : '+${trade.getSellPrice()}"></option>
+    </select>
+
+    Amount of btc paid: <input type="number" step="0.0000001" name="open price">
+    <button type="submit">Submit edited price</button>
+
+</form>
+
+</div>
+
+<div>
+    <footer>
+        <p>Created by: Sebastian Slupinski</p>
+        <p>Contact information: slupinski.sebastian@gmail.com.</p>
+    </footer>
+</div>
+
+</body>
+</html>
