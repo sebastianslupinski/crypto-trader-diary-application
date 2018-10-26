@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello Form</title>
+</head>
+
+<body>
+
+<form method="post" action="/edit-coin-name.html">
+    <select name="trade">
+        <option value="">Select trade</option>
+        <option th:each="trade : ${trades}"
+                th:value="${trade.id}"
+                th:text="${trade.getOpenDate()}+' : '+${trade.getBuyPrice()}+' : '+${trade.getName()}"></option>
+    </select>
+
+    Coin name: <input type="text" name="name">
+    <button type="submit">Submit edited coin name</button>
+
+</form>
+
+<div>
+    <footer>
+        <p>Created by: Sebastian Slupinski</p>
+        <p>Contact information: slupinski.sebastian@gmail.com.</p>
+    </footer>
+</div>
+
+</body>
+</html>

@@ -159,6 +159,21 @@ public class MainController {
         return "close-trade";
     }
 
+    @RequestMapping(value="/edit-coin-name.html", method = RequestMethod.GET)
+    public String editCoinName(Model model){
+
+        //get all trades
+        List<Position> allTrades = positionDao.findAll();
+
+        if(allTrades.size()==0){
+            model.addAttribute("errorMessage","You don't have any positions" );
+            return "statement-site";
+        }
+
+        model.addAttribute("trades",allTrades );
+        return "edit-coin-name";
+    }
+
     @RequestMapping(value="/edit-open-price.html", method = RequestMethod.GET)
     public String editOpenPrice(Model model){
 
@@ -196,7 +211,7 @@ public class MainController {
                 return "statement-site";
             }
         }
-        
+
         latestBudget.unfreezeBudget(tradeToEdit.getBuyPrice(), tradeToEdit.getBuyPrice());
         tradeToEdit.setBuyPrice(editedOpenPrice);
         latestBudget.freezeBudget(editedOpenPrice);
