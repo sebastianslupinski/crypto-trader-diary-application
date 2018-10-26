@@ -56,7 +56,7 @@ public class Statistics {
 
     public Double getDaysPrediction(int days){
 
-        Double averageDayPercent = Double.valueOf(getAveragePercent2());
+        Double averageDayPercent = Double.valueOf(getAveragePercent3());
         averageDayPercent = averageDayPercent+100;
         averageDayPercent = averageDayPercent/100;
         Double result = findNewestBudget().getGeneralBudget();
@@ -87,6 +87,9 @@ public class Statistics {
             }
             if(areSameDay(budgets.get(i-1).getActualDate(),budgets.get(i).getActualDate() )){
                 sameDayPercent += (budgets.get(i).getGeneralBudget()/budgets.get(i-1).getGeneralBudget()) *100 -100;
+                if(budgets.get(i-1).isChanged()){
+                    continue;
+                }
                 budgetsInDay++;
             }
             else{
@@ -98,6 +101,43 @@ public class Statistics {
         }
 
         sumOfPercent+=sameDayPercent/budgetsInDay;
+        long sumOfDays = getDifferenceDays();
+        if(sumOfDays==0){ sumOfDays=1; }
+        average = sumOfPercent/sumOfDays;
+        double averageRounded = Precision.round(average,1 );
+        return String.valueOf(averageRounded);
+    }
+
+    public String getAveragePercent3(){
+
+        if(budgets.size()==0){
+            return "0";
+        }
+
+        double sumOfPercent = 0;
+        double average;
+        Budget firstBudgetInDay = null;
+        Double addedBudgetToIgnore = 0.0;
+        for(int i = 0 ; i<budgets.size() ; i++){
+            if(i==0){
+                firstBudgetInDay = budgets.get(i);
+            }
+            else if(areSameDay(firstBudgetInDay.getActualDate(),budgets.get(i).getActualDate())){
+                if(budgets.get(i).isChanged()){
+                    addedBudgetToIgnore+=budgets.get(i).getGeneralBudget()-budgets.get(i-1).getGeneralBudget();
+                }
+            }
+            else{
+                firstBudgetInDay = budgets.get(i);
+                sumOfPercent += (budgets.get(i).getGeneralBudget()-addedBudgetToIgnore/budgets.get(i-1).getGeneralBudget()) *100 -100;
+                addedBudgetToIgnore = 0.0;
+                sumOfPercent = 0;
+            }
+            if(i>0 && i==budgets.size()-1 && areSameDay(firstBudgetInDay.getActualDate(),budgets.get(i).getActualDate())){
+                sumOfPercent += (budgets.get(i).getGeneralBudget()-addedBudgetToIgnore/budgets.get(i-1).getGeneralBudget()) *100 -100;
+            }
+        }
+
         long sumOfDays = getDifferenceDays();
         if(sumOfDays==0){ sumOfDays=1; }
         average = sumOfPercent/sumOfDays;
