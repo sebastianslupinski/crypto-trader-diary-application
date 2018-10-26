@@ -74,7 +74,10 @@ public class Budget implements Comparable<Budget>{
     public void unfreezeBudget(Double amountGiven, Double amountReceived){
         this.frozenBtc-=amountGiven;
         this.freeBtc+=amountReceived;
+    }
 
+    public void updateFreeBudget(Double difference){
+        this.freeBtc+=difference;
     }
 
     public Double getGeneralBudget(){

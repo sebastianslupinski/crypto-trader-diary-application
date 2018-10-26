@@ -182,7 +182,6 @@ public class MainController {
             return "statement-site";
         }
 
-
         Integer id = Integer.valueOf(request.getParameter("trade"));
         Position tradeToEdit = positionDao.findById(id);
 
@@ -190,6 +189,46 @@ public class MainController {
         positionDao.save(tradeToEdit);
 
         model.addAttribute("Message","Coin name edited successfully !");
+
+        return "statement-site";
+    }
+
+    @RequestMapping(value="/edit-sell-price.html", method = RequestMethod.GET)
+    public String editSellPrice(Model model){
+
+        //get all trades
+        List<Position> allTrades = positionDao.findByOpen(false);
+
+        if(allTrades.size()==0){
+            model.addAttribute("Message","You don't have any closed positions" );
+            return "statement-site";
+        }
+
+        model.addAttribute("trades",allTrades );
+        return "edit-sell-price";
+    }
+
+    @RequestMapping(value="/edit-sell-price.html", method = RequestMethod.POST)
+    public String submitEditingSellPrice(HttpServletRequest request, Model model){
+
+        if((request.getParameter("sell price").length()==0) || (request.getParameter("trade").length()==0)){
+            model.addAttribute("Message","Trade not selected or sell price not given");
+            return "statement-site";
+        }
+
+        Statistics latestStatistics = new Statistics(budgetDao.findAll());
+        Budget latestBudget = latestStatistics.findNewestBudget();
+
+        Integer id = Integer.valueOf(request.getParameter("trade"));
+        Position tradeToEdit = positionDao.findById(id);
+
+        Double difference = tradeToEdit.getSellPrice() - Double.valueOf(request.getParameter("sell price"));
+
+        latestBudget.updateFreeBudget(-difference);
+        budgetDao.save(latestBudget);
+        positionDao.save(tradeToEdit);
+
+        model.addAttribute("Message","Trade sell price edited successfully !");
 
         return "statement-site";
     }
