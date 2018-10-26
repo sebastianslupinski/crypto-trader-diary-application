@@ -50,14 +50,14 @@ public class MainController {
     public String showStatementAfterDecreasingBudget(HttpServletRequest request, Model model){
 
         if(request.getParameter("budget").length()==0){
-            model.addAttribute("errorMessage","You must provide some btc value" );
+            model.addAttribute("Message","You must provide some btc value" );
             return "statement-site";
         }
 
         Double decreasedValue = Double.valueOf(request.getParameter("budget"));
 
         if(decreasedValue<0){
-            model.addAttribute("errorMessage","Value must be positive" );
+            model.addAttribute("Message","Value must be positive" );
             return "statement-site";
         }
 
@@ -65,7 +65,7 @@ public class MainController {
         Budget latestBudget = latestStatistics.findNewestBudget();
 
         if(decreasedValue>latestBudget.getFreeBtc()){
-            model.addAttribute("errorMessage","You don't have enough free BTC to \"withdraw\" such amount" );
+            model.addAttribute("Message","You don't have enough free BTC to \"withdraw\" such amount" );
             return "statement-site";
         }
 
@@ -74,7 +74,7 @@ public class MainController {
 
         budgetDao.save(newBudget);
 
-        model.addAttribute("errorMessage","You decreased your budget successfully" );
+        model.addAttribute("Message","You decreased your budget successfully" );
         return "statement-site";
     }
 
@@ -119,14 +119,14 @@ public class MainController {
     public String showStatementAfterAddingBudget(HttpServletRequest request, Model model){
 
         if(request.getParameter("budget").length()==0){
-            model.addAttribute("errorMessage","You must provide some value");
+            model.addAttribute("Message","You must provide some value");
             return "statement-site";
         }
 
         Double addedBudget = Double.valueOf(request.getParameter("budget"));
 
         if(addedBudget<0){
-            model.addAttribute("errorMessage","You cannot add negative number");
+            model.addAttribute("Message","You cannot add negative number");
             return "statement-site";
         }
 
@@ -139,7 +139,7 @@ public class MainController {
         newBudget.addBudget(addedBudget);
         budgetDao.save(newBudget);
 
-        model.addAttribute("errorMessage","You increased your budget successfully");
+        model.addAttribute("Message","You increased your budget successfully");
         return "statement-site";
     }
 
@@ -151,7 +151,7 @@ public class MainController {
         List<Position> openTrades = positionDao.findByOpen(true);
 
         if(openTrades.size()==0){
-            model.addAttribute("errorMessage","You don't have any opened positions" );
+            model.addAttribute("Message","You don't have any opened positions" );
             return "statement-site";
         }
 
@@ -166,12 +166,32 @@ public class MainController {
         List<Position> allTrades = positionDao.findAll();
 
         if(allTrades.size()==0){
-            model.addAttribute("errorMessage","You don't have any positions" );
+            model.addAttribute("Message","You don't have any positions" );
             return "statement-site";
         }
 
         model.addAttribute("trades",allTrades );
         return "edit-coin-name";
+    }
+
+    @RequestMapping(value="/edit-coin-name.html", method = RequestMethod.POST)
+    public String submitNewCoinName(HttpServletRequest request, Model model){
+
+        if((request.getParameter("name").length()==0) || (request.getParameter("trade").length()==0)){
+            model.addAttribute("Message","Trade not selected or name not provided");
+            return "statement-site";
+        }
+
+
+        Integer id = Integer.valueOf(request.getParameter("trade"));
+        Position tradeToEdit = positionDao.findById(id);
+
+        tradeToEdit.setName(request.getParameter("name"));
+        positionDao.save(tradeToEdit);
+
+        model.addAttribute("Message","Coin name edited successfully !");
+
+        return "statement-site";
     }
 
     @RequestMapping(value="/edit-open-price.html", method = RequestMethod.GET)
@@ -181,7 +201,7 @@ public class MainController {
         List<Position> allTrades = positionDao.findByOpen(true);
 
         if(allTrades.size()==0){
-            model.addAttribute("errorMessage","You don't have any opened positions" );
+            model.addAttribute("Message","You don't have any opened positions" );
             return "statement-site";
         }
 
@@ -193,7 +213,7 @@ public class MainController {
     public String submitEditingOpenPrice(HttpServletRequest request, Model model){
 
         if((request.getParameter("open price").length()==0) || (request.getParameter("trade").length()==0)){
-            model.addAttribute("errorMessage","Trade not selected or open price not given");
+            model.addAttribute("Message","Trade not selected or open price not given");
             return "statement-site";
         }
 
@@ -207,7 +227,7 @@ public class MainController {
 
         if(editedOpenPrice>tradeToEdit.getBuyPrice()){
             if(editedOpenPrice-tradeToEdit.getBuyPrice()>latestBudget.getFreeBtc()){
-                model.addAttribute("errorMessage","You don't have enough free btc");
+                model.addAttribute("Message","You don't have enough free btc");
                 return "statement-site";
             }
         }
@@ -218,7 +238,7 @@ public class MainController {
         budgetDao.save(latestBudget);
         positionDao.save(tradeToEdit);
 
-        model.addAttribute("errorMessage","Trade open price edited successfully !");
+        model.addAttribute("Message","Trade open price edited successfully !");
 
         return "statement-site";
     }
@@ -236,7 +256,7 @@ public class MainController {
     public String processClosedTrade(HttpServletRequest request, Model model){
 
         if((request.getParameter("sell price").length()==0) || (request.getParameter("trade").length()==0)){
-            model.addAttribute("errorMessage","Trade not selected or selling price not given");
+            model.addAttribute("Message","Trade not selected or selling price not given");
             return "statement-site";
         }
 
@@ -269,7 +289,7 @@ public class MainController {
         Statistics latestStatistics = new Statistics(budgetDao.findAll());
 
         if(!latestStatistics.checkIfBuyingIsPossible(buyPrice)){
-            model.addAttribute("errorMessage","Your budget is too small" );
+            model.addAttribute("Message","Your budget is too small" );
             return "statement-site";
         }
 
