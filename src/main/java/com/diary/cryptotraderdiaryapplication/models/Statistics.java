@@ -129,6 +129,9 @@ public class Statistics {
             }
             else{
                 firstBudgetInDay = budgets.get(i);
+                if(budgets.get(i).isChanged()){
+                    addedBudgetToIgnore+=budgets.get(i).getGeneralBudget()-budgets.get(i-1).getGeneralBudget();
+                }
                 sumOfPercent += (budgets.get(i).getGeneralBudget()-addedBudgetToIgnore/budgets.get(i-1).getGeneralBudget()) *100 -100;
                 addedBudgetToIgnore = 0.0;
                 sumOfPercent = 0;
