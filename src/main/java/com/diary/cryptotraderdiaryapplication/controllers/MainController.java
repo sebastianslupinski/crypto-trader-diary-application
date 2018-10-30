@@ -106,7 +106,7 @@ public class MainController {
         model.addAttribute("latestBudget",latestBudget);
         model.addAttribute("freeBudget",latestBudget.getFreeBtc());
         model.addAttribute("frozenBudget",latestBudget.getFrozenBtc());
-        model.addAttribute("averageDay", latestStatistics.getAveragePercent3()+"%");
+        model.addAttribute("averageDay", latestStatistics.getAveragePercent()+"%");
         model.addAttribute("prediction30", latestStatistics.getDaysPrediction(30));
         model.addAttribute("prediction90", latestStatistics.getDaysPrediction(90));
         model.addAttribute("prediction180", latestStatistics.getDaysPrediction(180));
