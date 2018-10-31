@@ -23,22 +23,22 @@ public class MainController {
     @Autowired
     private BudgetDao budgetDao;
 
-    @RequestMapping(value="/add-trade.html", method = RequestMethod.GET)
+    @RequestMapping(value="/add-trade", method = RequestMethod.GET)
     public String addTrade(){
         return "add-trade";
     }
 
-    @RequestMapping(value="/add-budget.html", method = RequestMethod.GET)
+    @RequestMapping(value="/add-budget", method = RequestMethod.GET)
     public String addBudget(){
         return "add-budget";
     }
 
-    @RequestMapping(value="/edit-trade.html", method = RequestMethod.GET)
+    @RequestMapping(value="/edit-trade", method = RequestMethod.GET)
     public String editTrade(){
         return "edit-trade";
     }
 
-    @RequestMapping(value="/decrease-budget.html", method = RequestMethod.GET)
+    @RequestMapping(value="/decrease-budget", method = RequestMethod.GET)
     public String decreaseBudget(Model model){
         Statistics latestStatistics = new Statistics(budgetDao.findAll());
         Budget latest = latestStatistics.findNewestBudget();
@@ -46,7 +46,7 @@ public class MainController {
         return "decrease-budget";
     }
 
-    @RequestMapping(value = "/statement-site.html", method = RequestMethod.POST)
+    @RequestMapping(value = "/statement-site", method = RequestMethod.POST)
     public String showStatementAfterDecreasingBudget(HttpServletRequest request, Model model){
 
         if(request.getParameter("budget").length()==0){
@@ -78,7 +78,7 @@ public class MainController {
         return "statement-site";
     }
 
-    @RequestMapping(value="/main-site.html", method = RequestMethod.GET)
+    @RequestMapping(value="/main-site", method = RequestMethod.GET)
     public String showMainSite(Model model){
 
         //get all trades
@@ -87,7 +87,7 @@ public class MainController {
         return "main-site";
     }
 
-    @RequestMapping(value="/active-trades.html", method = RequestMethod.GET)
+    @RequestMapping(value="/active-trades", method = RequestMethod.GET)
     public String showActiveTrades(Model model){
 
         //get all trades
@@ -96,7 +96,7 @@ public class MainController {
         return "active-trades";
     }
 
-    @RequestMapping(value="/statistics.html", method = RequestMethod.GET)
+    @RequestMapping(value="/statistics", method = RequestMethod.GET)
     public String showStatistics(Model model){
 
 //        Budget testBudget = new Budget(0.6456,0.456);
@@ -115,7 +115,7 @@ public class MainController {
         return "statistics";
     }
 
-    @RequestMapping(value="/statistics.html", method = RequestMethod.POST)
+    @RequestMapping(value="/statistics", method = RequestMethod.POST)
     public String showStatementAfterAddingBudget(HttpServletRequest request, Model model){
 
         if(request.getParameter("budget").length()==0){
@@ -144,7 +144,7 @@ public class MainController {
     }
 
 
-    @RequestMapping(value="/close-trade.html", method = RequestMethod.GET)
+    @RequestMapping(value="/close-trade", method = RequestMethod.GET)
     public String closeTrade(Model model){
 
         //get all trades
@@ -159,7 +159,7 @@ public class MainController {
         return "close-trade";
     }
 
-    @RequestMapping(value="/edit-coin-name.html", method = RequestMethod.GET)
+    @RequestMapping(value="/edit-coin-name", method = RequestMethod.GET)
     public String editCoinName(Model model){
 
         //get all trades
@@ -174,7 +174,7 @@ public class MainController {
         return "edit-coin-name";
     }
 
-    @RequestMapping(value="/edit-coin-name.html", method = RequestMethod.POST)
+    @RequestMapping(value="/edit-coin-name", method = RequestMethod.POST)
     public String submitNewCoinName(HttpServletRequest request, Model model){
 
         if((request.getParameter("name").length()==0) || (request.getParameter("trade").length()==0)){
@@ -193,7 +193,7 @@ public class MainController {
         return "statement-site";
     }
 
-    @RequestMapping(value="/edit-sell-price.html", method = RequestMethod.GET)
+    @RequestMapping(value="/edit-sell-price", method = RequestMethod.GET)
     public String editSellPrice(Model model){
 
         //get all trades
@@ -208,7 +208,7 @@ public class MainController {
         return "edit-sell-price";
     }
 
-    @RequestMapping(value="/edit-sell-price.html", method = RequestMethod.POST)
+    @RequestMapping(value="/edit-sell-price", method = RequestMethod.POST)
     public String submitEditingSellPrice(HttpServletRequest request, Model model){
 
         if((request.getParameter("sell price").length()==0) || (request.getParameter("trade").length()==0)){
@@ -233,7 +233,7 @@ public class MainController {
         return "statement-site";
     }
 
-    @RequestMapping(value="/edit-open-price.html", method = RequestMethod.GET)
+    @RequestMapping(value="/edit-open-price", method = RequestMethod.GET)
     public String editOpenPrice(Model model){
 
         //get all trades
@@ -248,7 +248,7 @@ public class MainController {
         return "edit-open-price";
     }
 
-    @RequestMapping(value="/edit-open-price.html", method = RequestMethod.POST)
+    @RequestMapping(value="/edit-open-price", method = RequestMethod.POST)
     public String submitEditingOpenPrice(HttpServletRequest request, Model model){
 
         if((request.getParameter("open price").length()==0) || (request.getParameter("trade").length()==0)){
@@ -282,7 +282,7 @@ public class MainController {
         return "statement-site";
     }
 
-    @RequestMapping(value="/closed-trades.html", method = RequestMethod.GET)
+    @RequestMapping(value="/closed-trades", method = RequestMethod.GET)
     public String showClosedTrades(Model model){
 
         //get all trades
@@ -291,7 +291,7 @@ public class MainController {
         return "closed-trades";
     }
 
-    @RequestMapping(value="/trade-closed.html", method = RequestMethod.POST)
+    @RequestMapping(value="/trade-closed", method = RequestMethod.POST)
     public String processClosedTrade(HttpServletRequest request, Model model){
 
         if((request.getParameter("sell price").length()==0) || (request.getParameter("trade").length()==0)){
@@ -319,7 +319,7 @@ public class MainController {
         return "trade-closed";
     }
 
-    @RequestMapping(value="/main-site.html", method = RequestMethod.POST)
+    @RequestMapping(value="/main-site", method = RequestMethod.POST)
     public String showMainSiteAfterAdding(HttpServletRequest request, Model model){
 
         String name = request.getParameter("name");
