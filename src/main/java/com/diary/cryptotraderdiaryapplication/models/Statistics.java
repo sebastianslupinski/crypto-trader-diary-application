@@ -62,7 +62,7 @@ public class Statistics {
                 sumOfPercentInDay = 0;
             }
             if(i>0 && i==budgets.size()-1 && (firstBudgetInDay!=budgets.get(i)) && areSameDay(firstBudgetInDay.getActualDate(),budgets.get(i).getActualDate())){
-                sumOfPercent += (budgets.get(i).getGeneralBudget()-addedBudgetToIgnore/budgets.get(i-1).getGeneralBudget()) *100 -100;
+                sumOfPercent += (((budgets.get(i).getGeneralBudget()-addedBudgetToIgnore)/firstBudgetInDay.getGeneralBudget()) *100) -100;
             }
         }
 
